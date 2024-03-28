@@ -3,16 +3,11 @@ if True:
         # code here
         def city_within(city: int) :
             city_reached = {city : distanceThreshold} #it stores element list [city, distace_thereshold_remained]
-            chunk_size = 10
-            chunk_times = m//chunk_size
-            for chunk in range(chunk_times+1):
-                if chunk == chunk_times:
-                    here_edges = edges
-                else:
-                    here_edges = edges[chunk*chunk_size: (chunk+1)*chunk_size]
-                i = 0
-                while True:
-                    e0, e1, e2 = here_edges[i]
+            while True:
+                update_city_reached  = False
+                i=0
+                while i<m:
+                    e0, e1, e2 = edges[i]
 
 
                     if e0 in city_reached and e1 in city_reached:
@@ -22,9 +17,11 @@ if True:
                         dif10 = reached_e1 - e2
 
                         if dif01 > reached_e1:
-                            city_reached[e1] = dif01; i = 0; continue
+                            city_reached[e1] = dif01
+                            update_city_reached = True
                         elif dif10 > city_reached[e0]:
-                            city_reached[e0] = dif10; i = 0; continue
+                            city_reached[e0] = dif10
+                            update_city_reached = True
 
 
                     elif e0 in city_reached:
@@ -34,9 +31,11 @@ if True:
                             if e1 in city_reached:
                                 reached_e1 = city_reached[e1]
                                 if dif > reached_e1:
-                                    city_reached[e1] = dif; i = 0; continue
+                                    city_reached[e1] = dif
+                                    update_city_reached = True
                             else :
-                                city_reached[e1] = dif; i = 0; continue
+                                city_reached[e1] = dif
+                                update_city_reached = True
 
 
                     elif e1 in city_reached:
@@ -46,14 +45,17 @@ if True:
                             if e0 in city_reached:
                                 reached_e0 = city_reached[e0]
                                 if dif < reached_e0:
-                                    city_reached[e0] = dif ; i = 0; continue
+                                    city_reached[e0] = dif
+                                    update_city_reached = True
                             else:
-                                city_reached[e0] = dif; i = 0; continue
+                                city_reached[e0] = dif
+                                update_city_reached = True
 
 
                     i+=1
-                    if i >= len(here_edges):
-                        break
+                
+                if not update_city_reached:
+                    break
 
             return city_reached
         
